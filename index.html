@@ -277,7 +277,9 @@
         padding: 40px 25px;
       }
 
-      .badge { font-size: 13px; }
+      .badge {
+        font-size: 13px;
+      }
 
       .header h1 {
         font-size: 50px;
@@ -301,11 +303,17 @@
         padding: 16px;
       }
 
-      .msg { font-size: 17px; }
-      .footer { font-size: 14px; }
+      .msg {
+        font-size: 17px;
+      }
+
+      .footer {
+        font-size: 14px;
+      }
 
       button {
-        font-size: 16px; /* Mantido igual conforme pedido */
+        font-size: 16px;
+        /* Mantido igual conforme pedido */
         padding: 18px;
       }
     }
@@ -375,18 +383,18 @@
         // Brasil
         if (v.length > 10) {
           // Celular: (XX) X XXXX-XXXX
-          v = `(${v.substring(0,2)}) ${v.substring(2,3)} ${v.substring(3,7)}-${v.substring(7)}`;
+          v = `(${v.substring(0, 2)}) ${v.substring(2, 3)} ${v.substring(3, 7)}-${v.substring(7)}`;
         } else if (v.length > 6) {
           // Fixo ou digitando: (XX) XXXX-XXXX
-          v = `(${v.substring(0,2)}) ${v.substring(2,6)}-${v.substring(6)}`;
+          v = `(${v.substring(0, 2)}) ${v.substring(2, 6)}-${v.substring(6)}`;
         } else if (v.length > 2) {
-          v = `(${v.substring(0,2)}) ${v.substring(2)}`;
+          v = `(${v.substring(0, 2)}) ${v.substring(2)}`;
         } else if (v.length > 0) {
           v = `(${v}`;
         }
       } else {
         // Internacional: +XX XX XXXXXXXXX (livre)
-        v = `+${v.substring(0,2)} ${v.substring(2,4)} ${v.substring(4)}`;
+        v = `+${v.substring(0, 2)} ${v.substring(2, 4)} ${v.substring(4)}`;
       }
 
       input.value = v;
@@ -453,6 +461,13 @@
         return;
       }
 
+      // Validar tamanho do telefone (mínimo 10 números ex: 1144444444)
+      const apenasNumeros = telefone.replace(/\D/g, '');
+      if (apenasNumeros.length < 10) {
+        showMessage('Por favor, insira um telefone válido com DDD.', 'error');
+        return;
+      }
+
       enviando = true;
       btn.disabled = true;
       btn.textContent = 'Processando Inscrição...';
@@ -478,22 +493,28 @@
         params.append('data', localISOTime);
         params.append('id', idUnico);
 
-        await fetch(SCRIPT_URL, {
+        const response = await fetch(SCRIPT_URL, {
           method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: params.toString()
+          body: params
         });
 
-        // Sucesso
-        showMessage('✓ Inscrição confirmada com sucesso! Vaga garantida.', 'success');
-        document.getElementById('inscricaoForm').reset();
+        const data = await response.json();
 
-        localStorage.removeItem('insc_presencial_falha');
-        localStorage.removeItem('insc_presencial_id');
+        if (data.result === 'success') {
+          // Sucesso real retornado pela planilha
+          showMessage('✓ Inscrição confirmada com sucesso! Vaga garantida.', 'success');
+          document.getElementById('inscricaoForm').reset();
 
-        btn.textContent = 'Inscrição Enviada';
-        btn.style.display = 'none'; // Esconde botão apó sucesso para evitar duplo clique confuso
+          localStorage.removeItem('insc_presencial_falha');
+          localStorage.removeItem('insc_presencial_id');
+
+          btn.style.display = 'none'; // Esconde botão após sucesso
+        } else {
+          // Erro retornado pelo Google Apps Script (ex: Duplicidade)
+          showMessage(data.error || 'Erro ao processar sua inscrição. Tente novamente.', 'error');
+          btn.textContent = 'Garantir Participação Presencial';
+          btn.disabled = false;
+        }
 
       } catch (e) {
         // Fallback
