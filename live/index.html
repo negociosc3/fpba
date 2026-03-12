@@ -273,8 +273,8 @@
       </div>
 
       <div class="form-group">
-        <label for="telefone">Telefone / WhatsApp *</label>
-        <input type="tel" id="telefone" placeholder="(11) 90000-0000" required>
+        <label for="telefone">Telefone / WhatsApp com DDD sem o zero *</label>
+        <input type="tel" id="telefone" placeholder="(11) 90000-0000" required oninput="mascaraTelefone(this)">
       </div>
 
       <div class="form-group">
@@ -300,6 +300,26 @@
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZofWgXPzB_fwh_pqyQTfA64GJBFpn5t_iOYewREUBzNs-brKxM4t-mw0gXlMSmWwx/exec";
   const TIPO_INSCRICAO = "Online"; // Identificador oculto para Online
   
+  function mascaraTelefone(input) {
+    let v = input.value.replace(/\D/g, '');
+
+    if (v.length <= 11) {
+      // Brasil: (XX) XXXXX-XXXX
+      if (v.length > 6) {
+        v = `(${v.substring(0,2)}) ${v.substring(2,7)}-${v.substring(7)}`;
+      } else if (v.length > 2) {
+        v = `(${v.substring(0,2)}) ${v.substring(2)}`;
+      } else if (v.length > 0) {
+        v = `(${v}`;
+      }
+    } else {
+      // Internacional: +XX XX XXXXXXXXX (livre)
+      v = `+${v.substring(0,2)} ${v.substring(2,4)} ${v.substring(4)}`;
+    }
+
+    input.value = v;
+  }
+
   let enviando = false;
 
   function generateUUID() {
@@ -363,7 +383,7 @@
     enviando = true;
     btn.disabled = true;
     btn.textContent = 'Enviando...';
-    showMessage('⏳ Registrando na plataforma...', 'info');
+    // Removido o showMessage('⏳ Registrando na plataforma...', 'info'); para não ficar redundante
 
     try {
       let idUnico = localStorage.getItem('insc_live_id');
