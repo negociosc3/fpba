@@ -271,32 +271,41 @@
       color: rgba(255, 255, 255, 0.3);
     }
 
-    /* Ajustes para dispositivos móveis (fontes um pouco maiores) */
+    /* Ajustes para dispositivos móveis (fontes +20%) */
     @media (max-width: 600px) {
       .card {
         padding: 40px 25px;
       }
 
+      .badge { font-size: 13px; }
+
       .header h1 {
-        font-size: 42px;
+        font-size: 50px;
       }
 
       .header p {
-        font-size: 16px;
+        font-size: 19px;
         line-height: 1.5;
       }
 
+      .event-details {
+        font-size: 17px;
+      }
+
       .form-group label {
-        font-size: 14px;
+        font-size: 17px;
       }
 
       .form-group input {
-        font-size: 16px;
+        font-size: 19px;
         padding: 16px;
       }
 
+      .msg { font-size: 17px; }
+      .footer { font-size: 14px; }
+
       button {
-        font-size: 16px;
+        font-size: 16px; /* Mantido igual conforme pedido */
         padding: 18px;
       }
     }
@@ -363,9 +372,13 @@
       let v = input.value.replace(/\D/g, '');
 
       if (v.length <= 11) {
-        // Brasil: (XX) XXXXX-XXXX
-        if (v.length > 6) {
-          v = `(${v.substring(0,2)}) ${v.substring(2,7)}-${v.substring(7)}`;
+        // Brasil
+        if (v.length > 10) {
+          // Celular: (XX) X XXXX-XXXX
+          v = `(${v.substring(0,2)}) ${v.substring(2,3)} ${v.substring(3,7)}-${v.substring(7)}`;
+        } else if (v.length > 6) {
+          // Fixo ou digitando: (XX) XXXX-XXXX
+          v = `(${v.substring(0,2)}) ${v.substring(2,6)}-${v.substring(6)}`;
         } else if (v.length > 2) {
           v = `(${v.substring(0,2)}) ${v.substring(2)}`;
         } else if (v.length > 0) {

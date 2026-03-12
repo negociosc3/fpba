@@ -234,16 +234,19 @@
     color: rgba(255,255,255,0.3);
   }
 
-  /* Ajustes para dispositivos móveis (fontes um pouco maiores) */
+  /* Ajustes para dispositivos móveis (fontes +20%) */
   @media (max-width: 600px) {
     .card { padding: 40px 25px; }
-    .header h1 { font-size: 38px; }
-    .header p { font-size: 15.5px; line-height: 1.5; }
-    .event-details { padding: 18px 20px; font-size: 15px; }
-    .event-details div strong { font-size: 14px; }
-    .form-group label { font-size: 14px; }
-    .form-group input { font-size: 16px; padding: 16px; }
-    button { font-size: 15px; padding: 18px; }
+    .badge { font-size: 13px; }
+    .header h1 { font-size: 46px; }
+    .header p { font-size: 19px; line-height: 1.5; }
+    .event-details { padding: 18px 20px; font-size: 18px; }
+    .event-details div strong { font-size: 17px; }
+    .form-group label { font-size: 17px; }
+    .form-group input { font-size: 19px; padding: 16px; }
+    .msg { font-size: 16px; }
+    .footer { font-size: 14px; }
+    button { font-size: 15px; padding: 18px; } /* Mantido igual */
   }
 </style>
 </head>
@@ -304,9 +307,13 @@
     let v = input.value.replace(/\D/g, '');
 
     if (v.length <= 11) {
-      // Brasil: (XX) XXXXX-XXXX
-      if (v.length > 6) {
-        v = `(${v.substring(0,2)}) ${v.substring(2,7)}-${v.substring(7)}`;
+      // Brasil
+      if (v.length > 10) {
+        // Celular: (XX) X XXXX-XXXX
+        v = `(${v.substring(0,2)}) ${v.substring(2,3)} ${v.substring(3,7)}-${v.substring(7)}`;
+      } else if (v.length > 6) {
+        // Fixo ou digitando: (XX) XXXX-XXXX
+        v = `(${v.substring(0,2)}) ${v.substring(2,6)}-${v.substring(6)}`;
       } else if (v.length > 2) {
         v = `(${v.substring(0,2)}) ${v.substring(2)}`;
       } else if (v.length > 0) {
