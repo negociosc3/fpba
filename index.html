@@ -1,1 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1º Business Connect - Presencial | FPBA Advogados</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #E8C96A;
+      --gold-dark: #A38435;
+      --dark-bg: #090A0C;
+      --card-bg: #141518;
+      --input-bg: #1C1D21;
+      --text-primary: #F0F0F0;
+      --text-muted: #9E9E9E;
+      --border: rgba(201, 168, 76, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--dark-bg);
+      color: var(--text-primary);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 50% 30%, rgba(201, 168, 76, 0.06) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 540px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 50px 48px;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8);
+      position: relative;
+      overflow: hidden;
+      animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    @keyframes slideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(201, 168, 76, 0.1);
+      color: var(--gold);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      border: 1px solid rgba(201, 168, 76, 0.2);
+    }
+
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 38px;
+      font-weight: 600;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .header h1 span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .event-details {
+      background: var(--input-bg);
+      border-left: 3px solid var(--gold);
+      padding: 20px;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 40px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .event-details strong {
+      color: var(--text-primary);
+      font-weight: 500;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .event-details div {
+      margin-bottom: 12px;
+    }
+
+    .event-details div:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .form-group input {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 3px;
+      padding: 15px 16px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      color: var(--text-primary);
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      border-color: var(--gold);
+      background: rgba(20, 21, 24, 0.8);
+      box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.1);
+    }
+
+    .form-group input::placeholder {
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    button {
+      width: 100%;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: var(--dark-bg);
+      border: none;
+      border-radius: 3px;
+      padding: 16px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(201, 168, 76, 0.15);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 25px rgba(201, 168, 76, 0.25);
+      background: linear-gradient(135deg, #f0d583, var(--gold-light));
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+      background: var(--gold-dark);
+    }
+
+    .msg-container {
+      margin-top: 24px;
+      min-height: 24px;
+    }
+
+    .msg {
+      font-size: 14px;
+      text-align: center;
+      padding: 12px;
+      border-radius: 3px;
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .msg.active {
+      display: block;
+    }
+
+    .msg.info {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+    }
+
+    .msg.success {
+      background: rgba(201, 168, 76, 0.1);
+      color: var(--gold-light);
+      border: 1px solid var(--border);
+    }
+
+    .msg.error {
+      background: rgba(224, 112, 112, 0.1);
+      color: #ff8e8e;
+      border: 1px solid rgba(224, 112, 112, 0.2);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Ajustes para dispositivos móveis (fontes um pouco maiores) */
+    @media (max-width: 600px) {
+      .card {
+        padding: 40px 25px;
+      }
+
+      .header h1 {
+        font-size: 42px;
+      }
+
+      .header p {
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .form-group label {
+        font-size: 14px;
+      }
+
+      .form-group input {
+        font-size: 16px;
+        padding: 16px;
+      }
+
+      button {
+        font-size: 16px;
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <div class="badge">Vagas Limitadas</div>
+        <h1>1º Business Connect<br><span>Presencial</span></h1>
+        <p>Junte-se a nós para uma experiência exclusiva promovida pela FPBA Advogados com participações especiais da
+          SBX Consultoria, Graus Partners e convidados ilustres.</p>
+      </div>
+
+      <div class="event-details">
+        <div><strong>Data &amp; Horário</strong> 10 de Abril, das 08:30h às 12:00h</div>
+        <div><strong>Local</strong> Auditório - Rua Tenente Negrão, 140<br>Itaim Bibi, São Paulo - SP (CEP 04530-030)
+        </div>
+      </div>
+
+      <form id="inscricaoForm" onsubmit="event.preventDefault(); enviar();">
+        <div class="form-group">
+          <label for="nome">Nome Completo *</label>
+          <input type="text" id="nome" placeholder="Insira seu nome e sobrenome" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">E-mail Corporativo *</label>
+          <input type="email" id="email" placeholder="seu.nome@empresa.com.br" required>
+        </div>
+
+        <div class="form-group">
+          <label for="telefone">Telefone / WhatsApp *</label>
+          <input type="tel" id="telefone" placeholder="(11) 90000-0000" required>
+        </div>
+
+        <div class="form-group">
+          <label for="empresa">Nome da Empresa *</label>
+          <input type="text" id="empresa" placeholder="Organização que representa" required>
+        </div>
+
+        <button id="btn" type="submit">Garantir Participação Presencial</button>
+
+        <div class="msg-container">
+          <div id="msg" class="msg"></div>
+        </div>
+      </form>
+    </div>
+
+    <div class="footer">
+      © 2026 FPBA Advogados. Todos os direitos reservados.
+    </div>
+  </div>
+
+  <script>
+    // COLOQUE AQUI SUA NOVA URL DO GOOGLE APPS SCRIPT APÓS PUBLICAR
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZofWgXPzB_fwh_pqyQTfA64GJBFpn5t_iOYewREUBzNs-brKxM4t-mw0gXlMSmWwx/exec";
+    const TIPO_INSCRICAO = "Presencial"; // Identificador oculto que será gravado no Sheets
+
+    let enviando = false;
+
+    function generateUUID() {
+      return 'xxxx-xxxx-4xxx-yxxx'.replace(/[xy]/g, function (c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+    }
+
+    function showMessage(text, type) {
+      const msg = document.getElementById('msg');
+      msg.textContent = text;
+      msg.className = `msg active ${type}`;
+    }
+
+    // Fallback: Recupera dados da tentativa fracassada anterior
+    window.addEventListener('DOMContentLoaded', () => {
+      const pendente = localStorage.getItem('insc_presencial_falha');
+      if (pendente) {
+        try {
+          const dados = JSON.parse(pendente);
+          document.getElementById('nome').value = dados.nome || '';
+          document.getElementById('email').value = dados.email || '';
+          document.getElementById('telefone').value = dados.telefone || '';
+          document.getElementById('empresa').value = dados.empresa || '';
+
+          showMessage('Notamos uma falha de conexão na sua última tentativa. Seus dados foram salvos neste aparelho. Tente enviar novamente.', 'error');
+          document.getElementById('btn').textContent = 'Tentar Novamente Agora';
+        } catch (e) { }
+      }
+    });
+
+    window.addEventListener('beforeunload', function (e) {
+      if (enviando) {
+        e.preventDefault();
+        e.returnValue = 'Inscrição em processamento... Aguarde!';
+        return e.returnValue;
+      }
+    });
+
+    async function enviar() {
+      if (enviando) return;
+
+      const nome = document.getElementById('nome').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const empresa = document.getElementById('empresa').value.trim();
+      const btn = document.getElementById('btn');
+
+      if (!nome || !email || !telefone || !empresa) {
+        showMessage('Por favor, preencha todos os campos obrigatórios.', 'error');
+        return;
+      }
+
+      // Validar formato de e-mail
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showMessage('Por favor, insira um e-mail válido.', 'error');
+        return;
+      }
+
+      enviando = true;
+      btn.disabled = true;
+      btn.textContent = 'Processando Inscrição...';
+      showMessage('⏳ Aguarde...', 'info');
+
+      try {
+        let idUnico = localStorage.getItem('insc_presencial_id');
+        if (!idUnico) {
+          idUnico = generateUUID();
+          localStorage.setItem('insc_presencial_id', idUnico);
+        }
+
+        const now = new Date();
+        const tzOffset = now.getTimezoneOffset() * 60000;
+        const localISOTime = (new Date(now - tzOffset)).toISOString().slice(0, 19).replace('T', ' ');
+
+        const params = new URLSearchParams();
+        params.append('nome', nome);
+        params.append('email', email);
+        params.append('telefone', telefone);
+        params.append('empresa', empresa);
+        params.append('tipo', TIPO_INSCRICAO);
+        params.append('data', localISOTime);
+        params.append('id', idUnico);
+
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: params.toString()
+        });
+
+        // Sucesso
+        showMessage('✓ Inscrição confirmada com sucesso! Vaga garantida.', 'success');
+        document.getElementById('inscricaoForm').reset();
+
+        localStorage.removeItem('insc_presencial_falha');
+        localStorage.removeItem('insc_presencial_id');
+
+        btn.textContent = 'Inscrição Enviada';
+        btn.style.display = 'none'; // Esconde botão apó sucesso para evitar duplo clique confuso
+
+      } catch (e) {
+        // Fallback
+        localStorage.setItem('insc_presencial_falha', JSON.stringify({ nome, email, telefone, empresa }));
+        showMessage('O servidor está enfrentando alta demanda. Dados preenchidos foram salvos no seu aparelho.', 'error');
+        btn.textContent = 'Tentar Novamente Agora';
+        btn.disabled = false;
+      }
+
+      enviando = false;
+    }
+  </script>
+</body>
+
+</html>

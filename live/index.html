@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1º Business Connect - Live | FPBA Advogados</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --gold-dark: #A38435;
+    --dark-bg: #0C0D11; 
+    --card-bg: #16181D;
+    --input-bg: #1F2228;
+    --text-primary: #F4F4F4;
+    --text-muted: #A0A4AB;
+    --border: rgba(201, 168, 76, 0.12);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark-bg);
+    color: var(--text-primary);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -50%; right: -50%; width: 200%; height: 200%;
+    /* Gradient mais puxado pro azul/escuro para diferenciar um pouco a live do presencial */
+    background: radial-gradient(circle at 70% 30%, rgba(201,168,76,0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 500px; /* Um pouco mais slim */
+    position: relative;
+    z-index: 1;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px; /* Cantos um pouco mais arredondados */
+    padding: 45px 40px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  @keyframes slideUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .badge span { color: #E05252; margin-right: 6px; animation: pulse 2s infinite; }
+  
+  @keyframes pulse { 
+    0% { opacity: 1; }
+    50% { opacity: 0.4; } 
+    100% { opacity: 1; } 
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 34px;
+    font-weight: 600;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .header h1 span {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .header p {
+    color: var(--text-muted);
+    font-size: 14.5px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .event-details {
+    background: rgba(201,168,76,0.05);
+    border-radius: 6px;
+    padding: 16px 20px;
+    margin-bottom: 35px;
+    font-size: 14px;
+    color: var(--gold-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .event-details div strong {
+    color: var(--text-primary);
+    display: block;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 4px;
+  }
+
+  .form-group {
+    margin-bottom: 22px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .form-group input {
+    width: 100%;
+    background: var(--input-bg);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 4px;
+    padding: 14px 16px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  .form-group input:focus {
+    border-color: var(--gold);
+    background: rgba(25,28,34,0.8);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.1);
+  }
+
+  .form-group input::placeholder {
+    color: rgba(255,255,255,0.2);
+  }
+
+  button {
+    width: 100%;
+    background: var(--text-primary);
+    color: var(--dark-bg);
+    border: none;
+    border-radius: 4px;
+    padding: 16px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 5px;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    transform: translateY(-2px);
+    background: var(--gold-light);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+  }
+
+  button:active { transform: translateY(0); }
+  
+  button:disabled { 
+    opacity: 0.5; 
+    cursor: not-allowed; 
+    transform: none;
+    background: var(--text-muted);
+  }
+
+  .msg-container {
+    margin-top: 20px;
+    min-height: 24px;
+  }
+
+  .msg {
+    font-size: 13px;
+    text-align: center;
+    padding: 12px;
+    border-radius: 4px;
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .msg.active { display: block; }
+  .msg.info { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+  .msg.success { background: rgba(201,168,76,0.1); color: var(--gold-light); border: 1px solid var(--border); }
+  .msg.error { background: rgba(224,112,112,0.1); color: #ff8e8e; border: 1px solid rgba(224,112,112,0.2); }
+
+  .footer {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* Ajustes para dispositivos móveis (fontes um pouco maiores) */
+  @media (max-width: 600px) {
+    .card { padding: 40px 25px; }
+    .header h1 { font-size: 38px; }
+    .header p { font-size: 15.5px; line-height: 1.5; }
+    .event-details { padding: 18px 20px; font-size: 15px; }
+    .event-details div strong { font-size: 14px; }
+    .form-group label { font-size: 14px; }
+    .form-group input { font-size: 16px; padding: 16px; }
+    button { font-size: 15px; padding: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card">
+    <div class="header">
+      <div class="badge"><span>●</span> Transmissão Online</div>
+      <h1>1º Business Connect<br><span>Live Stream</span></h1>
+      <p>Acompanhe virtualmente este encontro corporativo inovador. O link da transmissão será enviado para você.</p>
+    </div>
+
+    <div class="event-details">
+      <div><strong>Data &amp; Horário</strong> 10 / Abril - 08:30h</div>
+    </div>
+
+    <form id="inscricaoForm" onsubmit="event.preventDefault(); enviar();">
+      <div class="form-group">
+        <label for="nome">Nome Completo *</label>
+        <input type="text" id="nome" placeholder="Seu nome" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mail *</label>
+        <input type="email" id="email" placeholder="seu.nome@empresa.com.br" required>
+      </div>
+
+      <div class="form-group">
+        <label for="telefone">Telefone / WhatsApp *</label>
+        <input type="tel" id="telefone" placeholder="(11) 90000-0000" required>
+      </div>
+
+      <div class="form-group">
+        <label for="empresa">Nome da Empresa *</label>
+        <input type="text" id="empresa" placeholder="Sua organização" required>
+      </div>
+
+      <button id="btn" type="submit">Cadastrar e Receber Link</button>
+      
+      <div class="msg-container">
+        <div id="msg" class="msg"></div>
+      </div>
+    </form>
+  </div>
+  
+  <div class="footer">
+    © 2026 FPBA Advogados. Todos os direitos reservados.
+  </div>
+</div>
+
+<script>
+  // COLOQUE AQUI SUA URL ATUAL DO GOOGLE APPS SCRIPT
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwZofWgXPzB_fwh_pqyQTfA64GJBFpn5t_iOYewREUBzNs-brKxM4t-mw0gXlMSmWwx/exec";
+  const TIPO_INSCRICAO = "Online"; // Identificador oculto para Online
+  
+  let enviando = false;
+
+  function generateUUID() {
+    return 'xxxx-xxxx-4xxx-yxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
+  function showMessage(text, type) {
+    const msg = document.getElementById('msg');
+    msg.textContent = text;
+    msg.className = `msg active ${type}`;
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const pendente = localStorage.getItem('insc_live_falha');
+    if (pendente) {
+      try {
+        const dados = JSON.parse(pendente);
+        document.getElementById('nome').value = dados.nome || '';
+        document.getElementById('email').value = dados.email || '';
+        document.getElementById('telefone').value = dados.telefone || '';
+        document.getElementById('empresa').value = dados.empresa || '';
+        
+        showMessage('Falha de conexão na tentativa anterior. Clique para reenviar.', 'error');
+        document.getElementById('btn').textContent = 'Reenviar Inscrição';
+      } catch(e) {}
+    }
+  });
+
+  window.addEventListener('beforeunload', function(e) {
+    if (enviando) {
+      e.preventDefault();
+      e.returnValue = 'Inscrição em progresso. Aguarde...';
+      return e.returnValue;
+    }
+  });
+
+  async function enviar() {
+    if (enviando) return;
+
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const telefone = document.getElementById('telefone').value.trim();
+    const empresa = document.getElementById('empresa').value.trim();
+    const btn = document.getElementById('btn');
+
+    if (!nome || !email || !telefone || !empresa) {
+      showMessage('Preencha os campos vazios para continuar.', 'error');
+      return;
+    }
+
+    // Validar formato de e-mail
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showMessage('Por favor, insira um e-mail válido.', 'error');
+      return;
+    }
+
+    enviando = true;
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    showMessage('⏳ Registrando na plataforma...', 'info');
+
+    try {
+      let idUnico = localStorage.getItem('insc_live_id');
+      if (!idUnico) {
+        idUnico = generateUUID();
+        localStorage.setItem('insc_live_id', idUnico);
+      }
+      
+      const now = new Date();
+      const tzOffset = now.getTimezoneOffset() * 60000;
+      const localISOTime = (new Date(now - tzOffset)).toISOString().slice(0, 19).replace('T', ' ');
+      
+      const params = new URLSearchParams();
+      params.append('nome', nome);
+      params.append('email', email);
+      params.append('telefone', telefone);
+      params.append('empresa', empresa);
+      params.append('tipo', TIPO_INSCRICAO);
+      params.append('data', localISOTime);
+      params.append('id', idUnico);
+
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
+      });
+
+      showMessage('✓ Tudo certo! Seu lugar na Live foi garantido.', 'success');
+      document.getElementById('inscricaoForm').reset();
+      
+      localStorage.removeItem('insc_live_falha');
+      localStorage.removeItem('insc_live_id');
+      
+      btn.style.display = 'none'; 
+      
+    } catch (e) {
+      localStorage.setItem('insc_live_falha', JSON.stringify({nome, email, telefone, empresa}));
+      showMessage('Ocorreu um erro de rede. Informações salvas em seu navegador.', 'error');
+      btn.textContent = 'Reenviar Inscrição';
+      btn.disabled = false;
+    }
+
+    enviando = false;
+  }
+</script>
+</body>
+</html>
