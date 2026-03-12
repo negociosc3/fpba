@@ -235,6 +235,30 @@
       cursor: not-allowed;
       transform: none;
       background: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .spinner {
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-top-color: var(--dark-bg);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    button.loading .spinner {
+      display: block;
     }
 
     .msg-container {
@@ -379,7 +403,10 @@
           <input type="text" id="empresa" placeholder="Sua organização" required>
         </div>
 
-        <button id="btn" type="submit">Cadastrar e Receber Link</button>
+        <button id="btn" type="submit">
+          <span class="spinner"></span>
+          <span id="btn-text">Cadastrar e Receber Link</span>
+        </button>
 
         <div class="msg-container">
           <div id="msg" class="msg"></div>
@@ -490,7 +517,8 @@
 
       enviando = true;
       btn.disabled = true;
-      btn.textContent = 'Enviando...';
+      btn.classList.add('loading');
+      document.getElementById('btn-text').textContent = 'AGUARDE...';
       // Removido o showMessage('⏳ Registrando na plataforma...', 'info'); para não ficar redundante
 
       try {
@@ -531,14 +559,16 @@
         } else {
           // Erro retornado pelo Google Apps Script (ex: Duplicidade)
           showMessage(data.error || 'Erro ao processar sua inscrição. Tente novamente.', 'error');
-          btn.textContent = 'Cadastrar e Receber Link';
+          btn.classList.remove('loading');
+          document.getElementById('btn-text').textContent = 'Cadastrar e Receber Link';
           btn.disabled = false;
         }
 
       } catch (e) {
         localStorage.setItem('insc_live_falha', JSON.stringify({ nome, email, telefone, empresa }));
         showMessage('Ocorreu um erro de rede. Informações salvas em seu navegador.', 'error');
-        btn.textContent = 'Reenviar Inscrição';
+        btn.classList.remove('loading');
+        document.getElementById('btn-text').textContent = 'Reenviar Inscrição';
         btn.disabled = false;
       }
 

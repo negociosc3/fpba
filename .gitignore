@@ -10,3 +10,6 @@
 # Permite a pasta live e seu conteúdo (online)
 !live/
 !live/index.html
+
+# Permite a pasta images
+!images/
